@@ -96,6 +96,8 @@ class Scanner {
   }
 
   JsonTokenType Scan();
+  void Rollback();
+
   float GetNumberValue() { return value_number_; };
   std::string GetStringValue() { return value_string_; };
 
@@ -112,10 +114,9 @@ class Scanner {
   void ScanString();
   void ScanNumber();
 
-  void Error(const char* message);
-
  private:
   std::string source_;  ///< json source string
+  size_t prev_pos_;     ///< previous pos of processing character
   size_t current_;      ///< current pos of processing character
   size_t line_;         ///< current line
 

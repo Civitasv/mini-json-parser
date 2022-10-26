@@ -1,21 +1,24 @@
 #pragma once
 
+#include "include/json_element.h"
 #include "scanner.h"
 
 namespace civitasv {
 namespace json {
 class Parser {
-  typedef Scanner::JsonTokenType JsonTokenType;
+  using JsonTokenType = Scanner::JsonTokenType;
 
  public:
-  void Parse();
+  JsonElement* Parse();
 
+  Parser(Scanner scanner) : scanner_(scanner) {}
  private:
+  JsonObject* ParseObject();
+  JsonArray* ParseArray();
+
  private:
   /// @brief Used to scan input file or string.
   Scanner scanner_;
-  /// @brief Type of the last read token.
-  JsonTokenType token_type_;
 };
 }  // namespace json
 }  // namespace civitasv

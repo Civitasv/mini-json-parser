@@ -13,7 +13,9 @@ int main() {
       "}"
       "}";
 
-  Scanner scanner(source);
+  auto source2 = "[1, 2, 3, 4, 5, \"Hello\"]";
+
+  Scanner scanner(source2);
   Scanner::JsonTokenType type;
   while ((type = scanner.Scan()) != Scanner::JsonTokenType::END_OF_SOURCE) {
     std::cout << "Type: " << type;

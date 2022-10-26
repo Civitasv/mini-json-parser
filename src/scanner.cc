@@ -1,6 +1,6 @@
 #include "include/scanner.h"
 
-#include <stdexcept>
+#include "include/error.h"
 
 namespace civitasv {
 namespace json {
@@ -20,10 +20,14 @@ char Scanner::PeekNext() {
 
 char Scanner::Advance() { return source_[current_++]; }
 
+void Scanner::Rollback() { current_ = prev_pos_; }
+
 Scanner::JsonTokenType Scanner::Scan() {
   if (IsAtEnd()) {
     return JsonTokenType::END_OF_SOURCE;
   }
+
+  prev_pos_ = current_;
 
   char c = Advance();
 
@@ -69,7 +73,7 @@ Scanner::JsonTokenType Scanner::Scan() {
     case '\r':
     case '\n':
     case '\t':
-      return JsonTokenType::WHITESPACE;
+      return Scan();
     default:
       // error
       return JsonTokenType::ERROR;
@@ -122,7 +126,7 @@ void Scanner::ScanNumber() {
 }
 
 void Scanner::ScanString() {
-  size_t pos = current_ - 1;
+  size_t pos = current_;
 
   while (Peek() != '\"' && !IsAtEnd()) {
     Advance();
@@ -132,10 +136,7 @@ void Scanner::ScanString() {
   }
   Advance();
 
-  value_string_ = source_.substr(pos, current_ - pos);
+  value_string_ = source_.substr(pos, current_ - pos - 1);
 }
-
-void Scanner::Error(const char* message) { throw std::logic_error(message); }
-
 }  // namespace json
 }  // namespace civitasv

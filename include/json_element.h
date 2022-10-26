@@ -152,7 +152,7 @@ class JsonElement {
         os << (element.value_.value_bool == true ? "true" : "false");
         break;
       case Type::JSON_NULL:
-        os << "NULL";
+        os << "null";
         break;
       default:
         break;

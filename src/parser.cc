@@ -2,6 +2,8 @@
 
 namespace civitasv {
 namespace json {
-class Parser {};
+void Parser::Parse() {
+
+}
 }  // namespace json
 }  // namespace civitasv

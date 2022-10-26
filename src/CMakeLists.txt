@@ -1,4 +1,4 @@
-add_library(libjsonparser STATIC scanner.cc parser.cc json_element.cc)
+add_library(libjsonparser STATIC scanner.cc parser.cc)
 
 target_include_directories(libjsonparser PUBLIC
 	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>)

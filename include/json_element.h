@@ -3,6 +3,8 @@
 #include <map>
 #include <vector>
 
+#include "error.h"
+
 namespace civitasv {
 namespace json {
 class JsonElement;
@@ -37,6 +39,25 @@ class JsonElement {
   JsonElement() : type_(Type::JSON_NULL) {}
   JsonElement(Type type);
 
+  ~JsonElement() {
+    if (type_ == Type::JSON_OBJECT) {
+      JsonObject* object = value_.value_object;
+      for (auto& [key, value] : *object) {
+        delete value;
+      }
+      delete object;
+    } else if (type_ == Type::JSON_ARRAY) {
+      JsonArray* array = value_.value_array;
+      for (auto& item : *array) {
+        delete item;
+      }
+      delete array;
+    } else if (type_ == Type::JSON_STRING) {
+      std::string* val = value_.value_string;
+      delete val;
+    }
+  }
+
   void type(Type type) { type_ = type; }
 
   void value(JsonObject* value) { value_.value_object = value; }
@@ -44,6 +65,46 @@ class JsonElement {
   void value(std::string* value) { value_.value_string = value; }
   void value(float value) { value_.value_number = value; }
   void value(bool value) { value_.value_bool = value; }
+
+  JsonObject* AsObject() {
+    if (type_ == Type::JSON_OBJECT) {
+      return value_.value_object;
+    } else {
+      Error("Type of JsonElement isn't JsonObject!");
+    }
+  }
+
+  JsonArray* AsArray() {
+    if (type_ == Type::JSON_ARRAY) {
+      return value_.value_array;
+    } else {
+      Error("Type of JsonElement isn't JsonArray!");
+    }
+  }
+
+  std::string* AsString() {
+    if (type_ == Type::JSON_STRING) {
+      return value_.value_string;
+    } else {
+      Error("Type of JsonElement isn't String!");
+    }
+  }
+
+  float AsNumber() {
+    if (type_ == Type::JSON_NUMBER) {
+      return value_.value_number;
+    } else {
+      Error("Type of JsonElement isn't Number!");
+    }
+  }
+
+  float AsBoolean() {
+    if (type_ == Type::JSON_FALSE || type_ == Type::JSON_TRUE) {
+      return value_.value_bool;
+    } else {
+      Error("Type of JsonElement isn't Boolean!");
+    }
+  }
 
   friend std::ostream& operator<<(std::ostream& os,
                                   const JsonElement& element) {

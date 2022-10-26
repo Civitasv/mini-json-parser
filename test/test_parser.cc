@@ -16,9 +16,13 @@ int main() {
 
   auto source2 = "[1, 2, 3, 4, 5, \"Hello\"]";
 
-  Scanner scanner(source2);
+  Scanner scanner(source);
   Parser parser(scanner);
 
   JsonElement* res = parser.Parse();
-  std::cout << *res;
+  JsonObject* arr = res->AsObject();
+
+  std::cout << *res << '\n';
+
+  delete res;
 }

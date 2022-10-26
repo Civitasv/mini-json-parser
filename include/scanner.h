@@ -37,12 +37,7 @@ class Scanner {
     LITERAL_NULL,
 
     /// @brief End of source
-    END_OF_SOURCE,
-
-    /// @brief whitespace, including ' ', \r, \n, \t
-    WHITESPACE,
-
-    ERROR
+    END_OF_SOURCE
   };
 
   friend std::ostream& operator<<(std::ostream& os, const JsonTokenType& type) {
@@ -82,12 +77,6 @@ class Scanner {
         break;
       case JsonTokenType::END_OF_SOURCE:
         os << "EOF";
-        break;
-      case JsonTokenType::WHITESPACE:
-        os << "whitespace";
-        break;
-      case JsonTokenType::ERROR:
-        os << "error";
         break;
       default:
         break;

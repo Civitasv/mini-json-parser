@@ -9,7 +9,7 @@ int main() {
       "{"
       "\"glossary\" : {"
       "  \"test\": true,"
-      "  \"hello\": 10.2,"
+      "  \"hello\": null,"
       "  \"hello2\": \"miaomiao\""
       "}"
       "}";

@@ -76,7 +76,7 @@ Scanner::JsonTokenType Scanner::Scan() {
       return Scan();
     default:
       // error
-      return JsonTokenType::ERROR;
+      Error("Unsupported Token: " + c);
   }
 }
 

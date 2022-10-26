@@ -9,9 +9,12 @@ class Parser {
   using JsonTokenType = Scanner::JsonTokenType;
 
  public:
+  /// @brief Parse scanner to JsonElement.
+  /// @return JsonElement.
   JsonElement* Parse();
 
   Parser(Scanner scanner) : scanner_(scanner) {}
+
  private:
   JsonObject* ParseObject();
   JsonArray* ParseArray();

@@ -84,10 +84,21 @@ class Scanner {
     return os;
   }
 
+  /// @brief Get Next TokenType. 
+  /// If it is string, assign value to value_string_,
+  /// If it is number, assign value to value_number_.
+  /// @return JsonTokenType.
   JsonTokenType Scan();
+
+  /// @brief Rollback to previous Token.
   void Rollback();
 
+  /// @brief Get Number Value.
+  /// @return Number value of token, which type is VALUE_NUMBER.
   float GetNumberValue() { return value_number_; };
+
+  /// @brief Get String Value.
+  /// @return String value of token, which type is VALUE_STRING.
   std::string GetStringValue() { return value_string_; };
 
  private:

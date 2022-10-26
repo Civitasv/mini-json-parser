@@ -5,14 +5,15 @@
 
 int main() {
   using namespace civitasv::json;
-  auto source =
-      "{"
-      "\"glossary\" : {"
-      "  \"test\": true,"
-      "  \"hello\": null,"
-      "  \"hello2\": \"miaomiao\""
-      "}"
-      "}";
+  auto source = R"(
+      {
+      "glossary" : {
+        "test": true,
+        "hello": null,
+        "hello2": "miao\nmiao"
+      }
+      }
+  )";
 
   auto source2 = "[1, 2, 3, 4, 5, \"Hello\"]";
 

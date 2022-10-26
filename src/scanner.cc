@@ -130,6 +130,27 @@ void Scanner::ScanString() {
 
   while (Peek() != '\"' && !IsAtEnd()) {
     Advance();
+    if (Peek() == '\\') {
+      Advance();
+      switch (Peek()) {
+        case 'b':
+        case 't':
+        case 'n':
+        case 'f':
+        case 'r':
+        case '\"':
+        case '\\':
+          Advance();
+          break;
+        case 'u':
+          for (int i = 0; i < 4; i++) {
+            Advance();
+          }
+          break;
+        default:
+          break;
+      }
+    }
   }
   if (IsAtEnd()) {
     Error("invalid string: missing closing quote");

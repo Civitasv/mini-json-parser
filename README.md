@@ -9,6 +9,8 @@ This library follows the Json Spec described at <http://json.org>.
 
 第二阶段很类似于抽象语法树（AST）的生成。可以理解为 AST 是对 Tokens 分析后的另一种输出格式。
 
+编译器在编译时，几乎也是按照上述步骤，首先词法分析，但不同于 json 解析器的是，在语法分析阶段，则是将源语言转化为目标语言的格式。
+
 ## Example
 
 ```c++

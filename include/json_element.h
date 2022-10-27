@@ -20,8 +20,7 @@ class JsonElement {
     JSON_STRING,
     JSON_NUMBER,
 
-    JSON_TRUE,
-    JSON_FALSE,
+    JSON_BOOL,
 
     JSON_NULL
   };
@@ -36,7 +35,7 @@ class JsonElement {
     bool value_bool;
   };
 
-  JsonElement() : type_(Type::JSON_NULL) {}
+  JsonElement() : JsonElement(Type::JSON_NULL) {}
 
   JsonElement(Type type) : type_(type) {
     switch (type) {
@@ -52,10 +51,7 @@ class JsonElement {
       case Type::JSON_NUMBER:
         value_.value_number = 0;
         break;
-      case Type::JSON_TRUE:
-        value_.value_bool = true;
-        break;
-      case Type::JSON_FALSE:
+      case Type::JSON_BOOL:
         value_.value_bool = false;
         break;
       case Type::JSON_NULL:
@@ -64,6 +60,12 @@ class JsonElement {
         break;
     }
   };
+
+  JsonElement(JsonObject* object) : type_(Type::JSON_OBJECT) { value(object); }
+  JsonElement(JsonArray* array) : type_(Type::JSON_ARRAY) { value(array); }
+  JsonElement(std::string* str) : type_(Type::JSON_STRING) { value(str); }
+  JsonElement(float number) : type_(Type::JSON_NUMBER) { value(number); }
+  JsonElement(bool val) : type_(Type::JSON_BOOL) { value(val); }
 
   ~JsonElement() {
     if (type_ == Type::JSON_OBJECT) {
@@ -84,13 +86,28 @@ class JsonElement {
     }
   }
 
-  void type(Type type) { type_ = type; }
+  Type type() { return type_; }
 
-  void value(JsonObject* value) { value_.value_object = value; }
-  void value(JsonArray* value) { value_.value_array = value; }
-  void value(std::string* value) { value_.value_string = value; }
-  void value(float value) { value_.value_number = value; }
-  void value(bool value) { value_.value_bool = value; }
+  void value(JsonObject* value) {
+    type_ = Type::JSON_OBJECT;
+    value_.value_object = value;
+  }
+  void value(JsonArray* value) {
+    type_ = Type::JSON_ARRAY;
+    value_.value_array = value;
+  }
+  void value(std::string* value) {
+    type_ = Type::JSON_STRING;
+    value_.value_string = value;
+  }
+  void value(float value) {
+    type_ = Type::JSON_NUMBER;
+    value_.value_number = value;
+  }
+  void value(bool value) {
+    type_ = Type::JSON_BOOL;
+    value_.value_bool = value;
+  }
 
   JsonObject* AsObject() {
     if (type_ == Type::JSON_OBJECT) {
@@ -125,7 +142,7 @@ class JsonElement {
   }
 
   float AsBoolean() {
-    if (type_ == Type::JSON_FALSE || type_ == Type::JSON_TRUE) {
+    if (type_ == Type::JSON_BOOL) {
       return value_.value_bool;
     } else {
       Error("Type of JsonElement isn't Boolean!");
@@ -147,8 +164,7 @@ class JsonElement {
       case Type::JSON_NUMBER:
         os << element.value_.value_number;
         break;
-      case Type::JSON_TRUE:
-      case Type::JSON_FALSE:
+      case Type::JSON_BOOL:
         os << (element.value_.value_bool == true ? "true" : "false");
         break;
       case Type::JSON_NULL:

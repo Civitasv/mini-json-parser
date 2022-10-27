@@ -14,39 +14,32 @@ JsonElement* Parser::Parse() {
     switch (token_type_) {
       case JsonTokenType::BEGIN_OBJECT: {
         JsonObject* object = ParseObject();
-        element->type(Type::JSON_OBJECT);
         element->value(object);
         break;
       }
       case JsonTokenType::BEGIN_ARRAY: {
         JsonArray* array = ParseArray();
-        element->type(Type::JSON_ARRAY);
         element->value(array);
         break;
       }
       case JsonTokenType::VALUE_STRING: {
         std::string* val = new std::string(scanner_.GetStringValue());
-        element->type(Type::JSON_STRING);
         element->value(val);
         break;
       }
       case JsonTokenType::VALUE_NUMBER: {
-        element->type(Type::JSON_NUMBER);
         element->value(scanner_.GetNumberValue());
         break;
       }
       case JsonTokenType::LITERAL_TRUE: {
-        element->type(Type::JSON_TRUE);
         element->value(true);
         break;
       }
       case JsonTokenType::LITERAL_FALSE: {
-        element->type(Type::JSON_FALSE);
         element->value(false);
         break;
       }
       case JsonTokenType::LITERAL_NULL: {
-        element->type(Type::JSON_NULL);
         break;
       }
     }

@@ -6,13 +6,13 @@
 int main() {
   using namespace civitasv::json;
   auto source = R"(
-      {
+    {
       "glossary" : {
         "test": true,
         "hello": null,
         "hello2": "miao\nmiao"
       }
-      }
+    }
   )";
 
   auto source2 = "[1, 2, 3, 4, 5, \"Hello\"]";
@@ -21,7 +21,9 @@ int main() {
   Parser parser(scanner);
 
   JsonElement* res = parser.Parse();
-  JsonObject* arr = res->AsObject();
+  JsonObject* obj = res->AsObject();
+
+  (*obj)["tes"] = new JsonElement(20.0f);
 
   std::cout << *res << '\n';
 

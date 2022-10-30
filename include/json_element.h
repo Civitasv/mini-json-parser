@@ -180,7 +180,7 @@ class JsonElement {
   friend std::ostream& operator<<(std::ostream& os, const JsonObject& object) {
     os << "{";
     for (auto iter = object.begin(); iter != object.end(); iter++) {
-      os << '\"' << iter->first << '\"' << ": " << iter->second->dumps();
+      os << '\"' << iter->first << '\"' << ": " << iter->second->Dumps();
       if (iter != --object.end()) {
         os << ", ";
       }
@@ -192,7 +192,7 @@ class JsonElement {
   friend std::ostream& operator<<(std::ostream& os, const JsonArray& array) {
     os << "[";
     for (size_t i = 0; i < array.size(); i++) {
-      os << array[i]->dumps();
+      os << array[i]->Dumps();
       if (i != array.size() - 1) {
         os << ", ";
       }

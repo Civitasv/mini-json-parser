@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "include/parser.h"
-#include "include/scanner.h"
 
 int main() {
   using namespace civitasv::json;

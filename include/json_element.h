@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <map>
+#include <sstream>
 #include <vector>
 
 #include "error.h"
@@ -149,50 +150,49 @@ class JsonElement {
     }
   }
 
-  friend std::ostream& operator<<(std::ostream& os,
-                                  const JsonElement& element) {
-    switch (element.type_) {
+  std::string dumps() {
+    std::stringstream ss;
+    switch (type_) {
       case Type::JSON_OBJECT:
-        os << *(element.value_.value_object);
+        ss << *(value_.value_object);
         break;
       case Type::JSON_ARRAY:
-        os << *(element.value_.value_array);
+        ss << *(value_.value_array);
         break;
       case Type::JSON_STRING:
-        os << '\"' << *(element.value_.value_string) << '\"';
+        ss << '\"' << *(value_.value_string) << '\"';
         break;
       case Type::JSON_NUMBER:
-        os << element.value_.value_number;
+        ss << value_.value_number;
         break;
       case Type::JSON_BOOL:
-        os << (element.value_.value_bool == true ? "true" : "false");
+        ss << (value_.value_bool == true ? "true" : "false");
         break;
       case Type::JSON_NULL:
-        os << "null";
+        ss << "null";
         break;
       default:
         break;
     }
-    return os;
+    return ss.str();
   }
 
   friend std::ostream& operator<<(std::ostream& os, const JsonObject& object) {
-    os << "{" << '\n';
+    os << "{";
     for (auto iter = object.begin(); iter != object.end(); iter++) {
-      os << '\"' << iter->first << '\"' << ": " << *iter->second;
+      os << '\"' << iter->first << '\"' << ": " << iter->second->dumps();
       if (iter != --object.end()) {
         os << ", ";
       }
-      os << '\n';
     }
-    os << "}" << '\n';
+    os << "}";
     return os;
   }
 
   friend std::ostream& operator<<(std::ostream& os, const JsonArray& array) {
     os << "[";
     for (size_t i = 0; i < array.size(); i++) {
-      os << *array[i];
+      os << array[i]->dumps();
       if (i != array.size() - 1) {
         os << ", ";
       }

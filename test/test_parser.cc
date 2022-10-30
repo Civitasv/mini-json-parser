@@ -23,9 +23,9 @@ int main() {
   JsonElement* res = parser.Parse();
   JsonObject* obj = res->AsObject();
 
-  (*obj)["tes"] = new JsonElement(20.0f);
+  obj->insert({"tes", new JsonElement(20.0f)});
 
-  std::cout << *res << '\n';
+  std::cout << res->dumps()  << '\n';
 
   delete res;
 }

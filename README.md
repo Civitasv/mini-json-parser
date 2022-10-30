@@ -15,14 +15,15 @@ This library follows the Json Spec described at <http://json.org>.
 
 ```c++
 using namespace civitasv::json;
-auto source =
-    "{"
-    "\"glossary\" : {"
-    "  \"test\": true,"
-    "  \"hello\": 10.2,"
-    "  \"hello2\": \"miaomiao\""
-    "}"
-    "}";
+auto source = R"(
+{
+    "glossary" : {
+    "test": true,
+    "hello": null,
+    "hello2": "miao\nmiao"
+    }
+}
+)";
 
 auto source2 = "[1, 2, 3, 4, 5, \"Hello\"]";
 
@@ -30,9 +31,11 @@ Scanner scanner(source);
 Parser parser(scanner);
 
 JsonElement* res = parser.Parse();
-JsonObject* object = res->AsObject();
+JsonObject* obj = res->AsObject();
 
-std::cout << *res << '\n';
+obj->insert({"tes", new JsonElement(20.0f)});
+
+std::cout << res->dumps()  << '\n';
 
 delete res;
 ```
@@ -40,12 +43,5 @@ delete res;
 ½«»áÊä³ö£º
 
 ```txt
-{
-"glossary": {
-"hello": 10.2,
-"hello2": "miaomiao",
-"test": true
-}
-
-}
+{"glossary": {"hello": null, "hello2": "miao\nmiao", "test": true}, "tes": 20}
 ```

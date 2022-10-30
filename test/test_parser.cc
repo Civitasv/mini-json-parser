@@ -7,15 +7,14 @@ int main() {
   using namespace civitasv::json;
   auto source = R"(
     {
-      "glossary" : {
-        "test": true,
-        "hello": null,
-        "hello2": "miao\nmiao"
-      }
+      "name": "¹ÅÔÂÓÐÈýÄ¾",
+      "university": "whu",
+      "age": 22,
+      "gender": "ÄÐ",
+      "isProgrammer": true,
+      "skills": ["C++", "JS/TS", "Java"]
     }
   )";
-
-  auto source2 = "[1, 2, 3, 4, 5, \"Hello\"]";
 
   Scanner scanner(source);
   Parser parser(scanner);
@@ -23,9 +22,9 @@ int main() {
   JsonElement* res = parser.Parse();
   JsonObject* obj = res->AsObject();
 
-  obj->insert({"tes", new JsonElement(20.0f)});
+  obj->insert({"AddTest", new JsonElement(20.0f)});
 
-  std::cout << res->dumps()  << '\n';
+  std::cout << res->Dumps()  << '\n';
 
   delete res;
 }

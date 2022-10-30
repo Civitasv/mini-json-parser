@@ -150,7 +150,7 @@ class JsonElement {
     }
   }
 
-  std::string dumps() {
+  std::string Dumps() {
     std::stringstream ss;
     switch (type_) {
       case Type::JSON_OBJECT:

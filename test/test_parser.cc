@@ -8,7 +8,7 @@ int main() {
     {
       "name": "¹ÅÔÂÓÐÈýÄ¾",
       "university": "whu",
-      "age": 22,
+      "age": -22,
       "gender": "ÄÐ",
       "isProgrammer": true,
       "skills": ["C++", "JS/TS", "Java"]
@@ -22,7 +22,7 @@ int main() {
   JsonObject* obj = res->AsObject();
 
   obj->insert({"AddTest", new JsonElement(20.0f)});
-
+  
   std::cout << res->Dumps()  << '\n';
 
   delete res;

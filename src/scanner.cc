@@ -106,9 +106,6 @@ void Scanner::ScanNull() {
 
 void Scanner::ScanNumber() {
   size_t pos = current_ - 1;
-  if (Peek() == '-') {
-    Advance();
-  }
 
   while (IsDigit(Peek())) {
     Advance();
